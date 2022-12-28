@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Notion on ivoryworks</title><link>/tags/notion/</link><description>Recent content in Notion on ivoryworks</description><generator>Hugo -- gohugo.io</generator><language>ja</language><lastBuildDate>Wed, 28 Dec 2022 19:18:00 +0900</lastBuildDate><atom:link href="/tags/notion/index.xml" rel="self" type="application/rss+xml"/><item><title>NotionとHugoでつくるblog</title><link>/post/2022/12/28/</link><pubDate>Wed, 28 Dec 2022 19:18:00 +0900</pubDate><guid>/post/2022/12/28/</guid><description>はじめに 工夫次第で色々な使い方ができるNotionと静的サイトジェネレーターのHugo、それとGitHub ActionsとGitHub Pagesを組み合わせて自動化されたBlog環境(ヘッドレスCMS)を構築します。
+注意：本解説で扱うlounge-n/notion-md-exportアクションは現在開発途中のものです。本ページは動作確認のために書かれたものです。解説に従って環境を整えると一応の動作はしますが正式リリースまでお待ち下さい。正式リリースの後にこの注釈は削除されます。
+作業を始める前提となる環境の準備 このページでは以下のことについて説明しません。それぞれ調べてください。
+ローカル(手元のPC)へのhugoおよびgitのインストール GitHubリポジトリの作成などGitHubを利用する上での基礎知識 Notionデータベース作成方法 環境構築 Notion side ブログ執筆用のNotionデータベース 最低限3つのプロパティが必要となります。タグやカテゴリなどは後からカスタマイズすることが可能なのでまずは次のプロパティ構成のデータベースを作成して下さい。
+Title（種類：タイトル）ブログ記事のタイトルになります。 Date（種類：日付）記事の投稿日付およびURLパスに用いられます。 Publish（種類：チェックボックス）GitHubにアップロード記事を指定します。 インテグレーションとコネクト My Integrationsにアクセスしてインテグレーションを作成します。内部インテグレーションとしてコンテンツの読み取りと更新の2つを許可して下さい。
+データベースに戻り、作成したインテグレーションをメニューの「コネクト」から追加して下さい。これによりトークンを用いてデータベースに外部からアクセスすることが可能となります。
+環境構築 GitHub side NotionからMarkdownを書き出すリポジトリとコンテンツを公開するためのリポジトリの2つを用意します。
+双方を1つのリポジトリで運用することも可能ですが、2つに分けて棲み分けを行う方法がおすすめです。
+GitHubリポジトリ1(Markdown書き出し用) 空のプライベートリポジトリを作成します。リポジトリ名の制約はありません。これはデプロイ元のリポジトリとなります。
+次に、Settings &amp;gt; Secrets &amp;gt; Actions より次の環境変数を設定します。
+Name Secret NOTION_AUTH_TOKEN My Integrationsで作成したインテグレーションのトークンを値として設定します。 NOTION_DATABASE_ID NotionデータベースURLの次の部分を値として設定します。 https://www.notion.so/xxxx/&amp;lt;データベースID&amp;gt;?v=xxxx GitHubリポジトリ2(GitHub Pages公開コンテンツ用) 空のパブリックリポジトリを作成します。リポジトリ名は次のルールに従って下さい。これはデプロイ先のリポジトリとなります。
+kotlin.Unit GitHub Pagesでは1つのアカウントまたは1つのOrganizationにつき公開できるGitHub Page1つだけです。上記ルールに従ったリポジトリのみGitHub Pageとして公開することができます。
+次に、リポジトリのSettingより書き込み権限付きのデプロイキーを登録します。
+デプロイキーについては デプロイキーの管理 を参照して下さい。ちなみに、デプロイキーとして鍵を生成する場合はパスフレーズを設定しないことに注意して下さい。
+リポジトリ1のシークレットキーACTIONS_DEPLOY_KEYに秘密鍵を、リポジトリ2にデプロイキーとして公開鍵を登録します。
+Hugo ローカルでHugo環境を新規作成します。なお、本記事執筆時点で使用したHugoのバージョンは*v0.108.0+extended*でした。作成したディレクトリに移動してgit初期化します。
+$ hugo new site &amp;lt;任意のディレクトリ名&amp;gt; $ cd &amp;lt;作成されたディレクトリ名&amp;gt; $ git init 次にテーマを設定します。本サイトはMainroadを使用しています。次のようにthemesディレクトリ配下にcloneするかサブモジュールとして追加します。</description></item></channel></rss>
