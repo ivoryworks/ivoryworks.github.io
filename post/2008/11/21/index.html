@@ -1,0 +1,115 @@
+<!doctype html><html class=no-js lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>pdaXrom：SDカードとswapファイル - ivoryworks</title><script>(function(e,t){e[t]=e[t].replace("no-js","js")})(document.documentElement,"className")</script><meta name=description content><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=dns-prefetch href=//fonts.googleapis.com><link rel=dns-prefetch href=//fonts.gstatic.com><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700"><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/css/font.css><link rel=stylesheet href=/css/custom.css><link rel="shortcut icon" href=/favicon.ico></head><body class=body><div class="container container--outer"><header class=header><div class="container header__container"><div class=logo><a class=logo__link href=/ title=ivoryworks rel=home><div class="logo__item logo__text"><div class=logo__title>ivoryworks</div></div></a></div><nav class=menu><button class=menu__btn aria-haspopup=true aria-expanded=false tabindex=0>
+<span class=menu__btn-title tabindex=-1>Menu</span></button><ul class=menu__list><li class=menu__item><a class=menu__link href=/><span class=menu__text>ホーム</span></a></li><li class=menu__item><a class=menu__link href=/about/><span class=menu__text>このサイトについて</span></a></li></ul></nav></div></header><div class="wrapper flex"><div class=primary><main class=main role=main><article class=post><header class=post__header><h1 class=post__title>pdaXrom：SDカードとswapファイル</h1><div class="post__meta meta"><div class="meta__item-datetime meta__item"><svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class=meta__text datetime=2008-11-21T00:00:00Z>2008/11/21 00:00</time></div></div></header><div class="content post__content clearfix"><p>SDカードにswapファイルを作成する。</p><p>環境は以下。</p><ul><li>Zaurus SL-C760</li><li>pdaXrom 1.1.0 r197</li><li>グリーンハウス GH-SDC1GX（1Gbyte）</li></ul><p>まず、どのデバイスファイルがSDカードなのかということだが、pdaXrom 1.1.0 r197だと以下のファイルが該当する。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>/dev/mmcblk0p1
+</span></span></code></pre></div><p>もし作業前にマウントされているならばアンマウントしておく。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># umount /mnt/card</span>
+</span></span></code></pre></div><p>はじめに、fdiskによるパーティションの作成。今回は領域全てを1パーティションとして利用する事にする。<br>　nコマンドで新規パーティションを作成する（既にパーティションが作成されている場合にはdコマンドで解放）。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># fdisk /dev/mmcblk0p1  </span>
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>The number of cylinders <span style=color:#66d9ef>for</span> this disk is set to 30992.  
+</span></span><span style=display:flex><span>There is nothing wrong with that, but this is larger than 1024,  
+</span></span><span style=display:flex><span>and could in certain setups cause problems with:  
+</span></span><span style=display:flex><span>1<span style=color:#f92672>)</span> software that runs at boot time <span style=color:#f92672>(</span>e.g., old versions of LILO<span style=color:#f92672>)</span>  
+</span></span><span style=display:flex><span>2<span style=color:#f92672>)</span> booting and partitioning software from other OSs  
+</span></span><span style=display:flex><span>   <span style=color:#f92672>(</span>e.g., DOS FDISK, OS/2 FDISK<span style=color:#f92672>)</span>  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>Command <span style=color:#f92672>(</span>m <span style=color:#66d9ef>for</span> help<span style=color:#f92672>)</span>: m  
+</span></span><span style=display:flex><span>Command action  
+</span></span><span style=display:flex><span>   a   toggle a bootable flag  
+</span></span><span style=display:flex><span>   b   edit bsd disklabel  
+</span></span><span style=display:flex><span>   c   toggle the dos compatibility flag  
+</span></span><span style=display:flex><span>   d   delete a partition  
+</span></span><span style=display:flex><span>   l   list known partition types  
+</span></span><span style=display:flex><span>   m   print this menu  
+</span></span><span style=display:flex><span>   n   add a new partition  
+</span></span><span style=display:flex><span>   o   create a new empty DOS partition table  
+</span></span><span style=display:flex><span>   p   print the partition table  
+</span></span><span style=display:flex><span>   q   quit without saving changes  
+</span></span><span style=display:flex><span>   s   create a new empty Sun disklabel  
+</span></span><span style=display:flex><span>   t   change a partition’s system id  
+</span></span><span style=display:flex><span>   u   change display/entry units  
+</span></span><span style=display:flex><span>   v   verify the partition table  
+</span></span><span style=display:flex><span>   w   write table to disk and exit  
+</span></span><span style=display:flex><span>   x   extra functionality <span style=color:#f92672>(</span>experts only<span style=color:#f92672>)</span>  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>Command <span style=color:#f92672>(</span>m <span style=color:#66d9ef>for</span> help<span style=color:#f92672>)</span>: d  
+</span></span><span style=display:flex><span>Selected partition <span style=color:#ae81ff>1</span>  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>Command <span style=color:#f92672>(</span>m <span style=color:#66d9ef>for</span> help<span style=color:#f92672>)</span>: n  
+</span></span><span style=display:flex><span>Command action  
+</span></span><span style=display:flex><span>   e   extended  
+</span></span><span style=display:flex><span>   p   primary partition <span style=color:#f92672>(</span>1-4<span style=color:#f92672>)</span>  
+</span></span><span style=display:flex><span>p  
+</span></span><span style=display:flex><span>Partition number <span style=color:#f92672>(</span>1-4<span style=color:#f92672>)</span>: <span style=color:#ae81ff>1</span>  
+</span></span><span style=display:flex><span>First cylinder <span style=color:#f92672>(</span>1-30992, default 1<span style=color:#f92672>)</span>:  
+</span></span><span style=display:flex><span>Using default value <span style=color:#ae81ff>1</span>  
+</span></span><span style=display:flex><span>Last cylinder or +size or +sizeM or +sizeK <span style=color:#f92672>(</span>1-30992, default 30992<span style=color:#f92672>)</span>:  
+</span></span><span style=display:flex><span>Using default value <span style=color:#ae81ff>30992</span>
+</span></span></code></pre></div><p>pコマンドで確認。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>Command <span style=color:#f92672>(</span>m <span style=color:#66d9ef>for</span> help<span style=color:#f92672>)</span>: p  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>Disk /dev/mmcblk0p1: <span style=color:#ae81ff>1015</span> MB, <span style=color:#ae81ff>1015549440</span> bytes  
+</span></span><span style=display:flex><span><span style=color:#ae81ff>4</span> heads, <span style=color:#ae81ff>16</span> sectors/track, <span style=color:#ae81ff>30992</span> cylinders  
+</span></span><span style=display:flex><span>Units <span style=color:#f92672>=</span> cylinders of <span style=color:#ae81ff>64</span> * 512 <span style=color:#f92672>=</span> <span style=color:#ae81ff>32768</span> bytes  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>          Device Boot      Start         End      Blocks   Id  System  
+</span></span><span style=display:flex><span>/dev/mmcblk0p1p1               <span style=color:#ae81ff>1</span>       <span style=color:#ae81ff>30992</span>      <span style=color:#ae81ff>991736</span>   <span style=color:#ae81ff>83</span>  Linux
+</span></span></code></pre></div><p>問題なければwコマンドで書込み。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>Command <span style=color:#f92672>(</span>m <span style=color:#66d9ef>for</span> help<span style=color:#f92672>)</span>: w  
+</span></span><span style=display:flex><span>The partition table has been altered!  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>Calling ioctl<span style=color:#f92672>()</span> to re-read partition table.  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>WARNING: Re-reading the partition table failed with error 22: Invalid argument.  
+</span></span><span style=display:flex><span>The kernel still uses the old table.  
+</span></span><span style=display:flex><span>The new table will be used at the next reboot.  
+</span></span><span style=display:flex><span>Syncing disks.
+</span></span></code></pre></div><p>次に、ext3形式でフォーマットする。すこし時間がかかる。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># mkfs.ext3 /dev/mmcblk0p1  </span>
+</span></span><span style=display:flex><span>mke2fs 1.39 <span style=color:#f92672>(</span>29-May-2006<span style=color:#f92672>)</span>  
+</span></span><span style=display:flex><span>Filesystem label<span style=color:#f92672>=</span>  
+</span></span><span style=display:flex><span>OS type: Linux  
+</span></span><span style=display:flex><span>Block size<span style=color:#f92672>=</span><span style=color:#ae81ff>4096</span> <span style=color:#f92672>(</span>log<span style=color:#f92672>=</span>2<span style=color:#f92672>)</span>  
+</span></span><span style=display:flex><span>Fragment size<span style=color:#f92672>=</span><span style=color:#ae81ff>4096</span> <span style=color:#f92672>(</span>log<span style=color:#f92672>=</span>2<span style=color:#f92672>)</span>  
+</span></span><span style=display:flex><span><span style=color:#ae81ff>124160</span> inodes, <span style=color:#ae81ff>247936</span> blocks  
+</span></span><span style=display:flex><span><span style=color:#ae81ff>12396</span> blocks <span style=color:#f92672>(</span>5.00%<span style=color:#f92672>)</span> reserved <span style=color:#66d9ef>for</span> the super user  
+</span></span><span style=display:flex><span>First data block<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>  
+</span></span><span style=display:flex><span>Maximum filesystem blocks<span style=color:#f92672>=</span><span style=color:#ae81ff>255852544</span>  
+</span></span><span style=display:flex><span><span style=color:#ae81ff>8</span> block groups  
+</span></span><span style=display:flex><span><span style=color:#ae81ff>32768</span> blocks per group, <span style=color:#ae81ff>32768</span> fragments per group  
+</span></span><span style=display:flex><span><span style=color:#ae81ff>15520</span> inodes per group  
+</span></span><span style=display:flex><span>Superblock backups stored on blocks:  
+</span></span><span style=display:flex><span>        32768, 98304, 163840, <span style=color:#ae81ff>229376</span>  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>Writing inode tables: <span style=color:#66d9ef>done</span>  
+</span></span><span style=display:flex><span>Creating journal <span style=color:#f92672>(</span><span style=color:#ae81ff>4096</span> blocks<span style=color:#f92672>)</span>: <span style=color:#66d9ef>done</span>  
+</span></span><span style=display:flex><span>Writing superblocks and filesystem accounting information: <span style=color:#66d9ef>done</span>  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>This filesystem will be automatically checked every <span style=color:#ae81ff>27</span> mounts or  
+</span></span><span style=display:flex><span><span style=color:#ae81ff>180</span> days, whichever comes first.  Use tune2fs -c or -i to override.
+</span></span></code></pre></div><p>フォーマットが終了したらマウント。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># mount /dev/mmcblk0p1 /mnt/card</span>
+</span></span></code></pre></div><p>dfコマンドで確認。約1GBの領域が/mnt/cardにマウントされているのがわかる。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># df -k  </span>
+</span></span><span style=display:flex><span>Filesystem           1k-blocks      Used Available Use% Mounted on  
+</span></span><span style=display:flex><span>/dev/mtdblock2          <span style=color:#ae81ff>123904</span>     <span style=color:#ae81ff>56112</span>     <span style=color:#ae81ff>67792</span>  45% /  
+</span></span><span style=display:flex><span>/dev/mmcblk0p1          <span style=color:#ae81ff>976120</span>     <span style=color:#ae81ff>17632</span>    <span style=color:#ae81ff>908904</span>   2% /mnt/card
+</span></span></code></pre></div><p>swapファイルを作成する。以下は128Mbyteのswap向けファイルを作成する例だが、サイズを変更するならばcountの値を調整すること。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># dd if=/dev/zero of=/mnt/card/.swapfile bs=512 count=262144  </span>
+</span></span><span style=display:flex><span>262144+0 records in  
+</span></span><span style=display:flex><span>262144+0 records out
+</span></span></code></pre></div><p>作成したファイルをswap領域として設定する。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># mkswap /mnt/card/.swapfile  </span>
+</span></span><span style=display:flex><span>Setting up swapspace version 1, size <span style=color:#f92672>=</span> 134213kB
+</span></span></code></pre></div><p>swapファイルを有効化。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># swapon /mnt/card/.swapfile</span>
+</span></span></code></pre></div><p>以上でswapが有効となっているはず。freeコマンドで確認。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># free  </span>
+</span></span><span style=display:flex><span>              total         used         free       shared      buffers  
+</span></span><span style=display:flex><span>  Mem:        <span style=color:#ae81ff>62356</span>        <span style=color:#ae81ff>60904</span>         <span style=color:#ae81ff>1452</span>            <span style=color:#ae81ff>0</span>          <span style=color:#ae81ff>212</span>  
+</span></span><span style=display:flex><span> Swap:       <span style=color:#ae81ff>131064</span>            <span style=color:#ae81ff>0</span>       <span style=color:#ae81ff>131064</span>  
+</span></span><span style=display:flex><span>Total:       <span style=color:#ae81ff>193420</span>        <span style=color:#ae81ff>60904</span>       <span style=color:#ae81ff>132516</span>
+</span></span></code></pre></div><p>上記手順によりswapファイルを有効化した場合、当然のことながら無造作にSDカードを抜いてはいけない。<br>　下記のようにswapファイルを無効化し、アンマウントしてからイジェクトすること。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># swapoff /mnt/card/.swapfile  </span>
+</span></span><span style=display:flex><span><span style=color:#75715e># umount /mnt/card</span>
+</span></span></code></pre></div><p><a href=http://www.amazon.co.jp/%E3%82%B0%E3%83%AA%E3%83%BC%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9-GH-SDC1GX-1GB-%E3%83%8F%E3%82%A4%E3%82%B9%E3%83%94%E3%83%BC%E3%83%89SD%E3%82%AB%E3%83%BC%E3%83%89/dp/B000ARLOF8%3FSubscriptionId%3D11VDG64RNE3BYZCZAVR2%26tag%3Divory-social-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB000ARLOF8>http://www.amazon.co.jp/%E3%82%B0%E3%83%AA%E3%83%BC%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9-GH-SDC1GX-1GB-%E3%83%8F%E3%82%A4%E3%82%B9%E3%83%94%E3%83%BC%E3%83%89SD%E3%82%AB%E3%83%BC%E3%83%89/dp/B000ARLOF8%3FSubscriptionId%3D11VDG64RNE3BYZCZAVR2%26tag%3Divory-social-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB000ARLOF8</a></p><p><a href=http://www.amazon.co.jp/%E3%82%B7%E3%83%A3%E3%83%BC%E3%83%97-SHARP-%E3%82%B6%E3%82%A6%E3%83%AB%E3%82%B9-SL-C760/dp/B00009SO6V%3FSubscriptionId%3D11VDG64RNE3BYZCZAVR2%26tag%3Divory-social-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00009SO6V>http://www.amazon.co.jp/%E3%82%B7%E3%83%A3%E3%83%BC%E3%83%97-SHARP-%E3%82%B6%E3%82%A6%E3%83%AB%E3%82%B9-SL-C760/dp/B00009SO6V%3FSubscriptionId%3D11VDG64RNE3BYZCZAVR2%26tag%3Divory-social-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3DB00009SO6V</a></p></div><footer class=post__footer><div class="post__tags tags clearfix"><svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5.0 11V3C0 1.5.8.8.8.8S1.5.0 3 0h8c1.5.0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 100-6 3 3 0 000 6z"/></svg><ul class=tags__list><li class=tags__item><a class="tags__link btn" href=/tags/zaurus/ rel=tag>Zaurus</a></li></ul></div></footer></article></main></div><aside class=sidebar><div class="widget-taglist widget"><h4 class=widget__title>Tags</h4><div class=widget__content><a class="widget-taglist__link widget__link btn" href=/tags/hugo/ title=Hugo>Hugo</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/linux/ title=Linux>Linux</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/notion/ title=Notion>Notion</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/php/ title=PHP>PHP</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/thinkpad/ title=ThinkPad>ThinkPad</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/web%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC/ title=Webサーバー>Webサーバー</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9/ title=Webサービス>Webサービス</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/zaurus/ title=Zaurus>Zaurus</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/%E3%81%A9%E3%81%86%E6%9B%B8%E3%81%8F/ title=どう書く？>どう書く？</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/%E3%82%B9%E3%82%BF%E3%83%91%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%89/ title=スタパクラウド>スタパクラウド</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/%E3%83%84%E3%83%BC%E3%83%AB/ title=ツール>ツール</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/%E5%AE%9F%E7%94%A8-r-%E3%82%A2%E3%83%8A%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/ title="実用 R アナグラミング">実用 R アナグラミング</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/%E9%9B%91%E8%A8%98/ title=雑記>雑記</a></div></div></aside></div><footer class=footer><div class="container footer__container flex"><div class=footer__copyright>&copy; 2023 ivoryworks.
+<span class=footer__copyright-credits>Generated with <a href=https://gohugo.io/ rel="nofollow noopener" target=_blank>Hugo</a> and <a href=https://github.com/Vimux/Mainroad/ rel="nofollow noopener" target=_blank>Mainroad</a> theme.</span></div></div></footer></div><script async defer src=/js/menu.js></script></body></html>
