@@ -1,0 +1,85 @@
+<!doctype html><html class=no-js lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Tokyo Cabinet 試す (hash) - ivoryworks</title><script>(function(e,t){e[t]=e[t].replace("no-js","js")})(document.documentElement,"className")</script><meta name=description content><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=dns-prefetch href=//fonts.googleapis.com><link rel=dns-prefetch href=//fonts.gstatic.com><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700"><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/css/font.css><link rel=stylesheet href=/css/custom.css><link rel="shortcut icon" href=/favicon.ico></head><body class=body><div class="container container--outer"><header class=header><div class="container header__container"><div class=logo><a class=logo__link href=/ title=ivoryworks rel=home><div class="logo__item logo__text"><div class=logo__title>ivoryworks</div></div></a></div><nav class=menu><button class=menu__btn aria-haspopup=true aria-expanded=false tabindex=0>
+<span class=menu__btn-title tabindex=-1>Menu</span></button><ul class=menu__list><li class=menu__item><a class=menu__link href=/><span class=menu__text>ホーム</span></a></li><li class=menu__item><a class=menu__link href=/about/><span class=menu__text>このサイトについて</span></a></li></ul></nav></div></header><div class="wrapper flex"><div class=primary><main class=main role=main><article class=post><header class=post__header><h1 class=post__title>Tokyo Cabinet 試す (hash)</h1><div class="post__meta meta"><div class="meta__item-datetime meta__item"><svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class=meta__text datetime=2010-02-03T00:00:00Z>2010/2/3 00:00</time></div></div></header><div class="content post__content clearfix"><p>Tokyo Cabinet。最近興味が沸いたので少し触ってみることに。ほんのお触り程度、で。</p><p><strong>データベースマネージャ Tokyo Cabinet</strong></p><p><a href=http://1978th.net/tokyocabinet/>http://1978th.net/tokyocabinet/</a></p><p>エントリタイトル、わざと『東京キャビネット』と書こうとしたのだけど、同名の企業が存在するので素直に書いた。しかも地元の企業だ。こっちの方が驚いた。</p><p><strong>■インストール</strong></p><p>OSは手元のFedoraとCentOS。yumで入ります。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># yum install tokyocabinet</span>
+</span></span></code></pre></div><p>Fedora12はインストールした記憶はないのだけど既に入っていた(?)。<br>　お触り程度なのでCLIでtchmgrコマンドを。’h’はハッシュ。<br>　tchmgrコマンドに-hパラメータを与えるとヘルプ出力。</p><p><strong>■tchmgr version</strong></p><p>バージョン出力。2010年02月03日現在Officialでは1.4.42が最新だと言っているので少し古い感じ。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ tchmgr version  
+</span></span><span style=display:flex><span>Tokyo Cabinet version 1.4.33 <span style=color:#f92672>(</span>824:1.0<span style=color:#f92672>)</span> <span style=color:#66d9ef>for</span> Linux  
+</span></span><span style=display:flex><span>Copyright <span style=color:#f92672>(</span>C<span style=color:#f92672>)</span> 2006-2009 Mikio Hirabayashi
+</span></span></code></pre></div><p><strong>■tchmgr create</strong></p><p>とりあえず、何かデータベースファイルを作ってみる。パラメータにファイル名を与える。</p><p>500kb程度のファイルが出来上がる。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ tchmgr create coffee.tch
+</span></span></code></pre></div><p><strong>■tchmgr inform</strong></p><p>さっそく生成したデータベースファイルの情報を出力してみる。</p><p>パラメータには同じくデータベースファイル名を。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ tchmgr inform coffee.tch  
+</span></span><span style=display:flex><span>path: coffee.tch  
+</span></span><span style=display:flex><span>database type: hash  
+</span></span><span style=display:flex><span>additional flags:  
+</span></span><span style=display:flex><span>bucket number: <span style=color:#ae81ff>131071</span>  
+</span></span><span style=display:flex><span>alignment: <span style=color:#ae81ff>16</span>  
+</span></span><span style=display:flex><span>free block pool: <span style=color:#ae81ff>1024</span>  
+</span></span><span style=display:flex><span>inode number: <span style=color:#ae81ff>2326537</span>  
+</span></span><span style=display:flex><span>modified time: 2010-02-03T00:07:31+09:00  
+</span></span><span style=display:flex><span>options:  
+</span></span><span style=display:flex><span>record number: <span style=color:#ae81ff>0</span>  
+</span></span><span style=display:flex><span>file size: <span style=color:#ae81ff>528704</span>
+</span></span></code></pre></div><p><strong>■tchmgr put</strong></p><p>レコードを追加してみよう。パラメータは、データベースファイル名、Key、Valueの順。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ tchmgr put coffee.tch espresso エスプレッソ
+</span></span></code></pre></div><p><strong>■tchmgr get</strong></p><p>まだ１レコードしか追加していないけれど、データを取り出してみる。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ tchmgr get coffee.tch espresso  
+</span></span><span style=display:flex><span>エスプレッソ
+</span></span></code></pre></div><p><strong>■tchmgr list</strong></p><p>更にレコードを追加してリスト表示させてみる。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ tchmgr put coffee.tch caffellatte カフェラテ  
+</span></span><span style=display:flex><span>$ tchmgr put coffee.tch cappuccino カプチーノ  
+</span></span><span style=display:flex><span>$ tchmgr list coffee.tch   
+</span></span><span style=display:flex><span>espresso  
+</span></span><span style=display:flex><span>caffellatte  
+</span></span><span style=display:flex><span>cappuccino
+</span></span></code></pre></div><p>こで再びデータベースの情報を出力。record numberが3となっている。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ tchmgr inform coffee.tch  
+</span></span><span style=display:flex><span>path: coffee.tch  
+</span></span><span style=display:flex><span>database type: hash  
+</span></span><span style=display:flex><span>additional flags:  
+</span></span><span style=display:flex><span>bucket number: <span style=color:#ae81ff>131071</span>  
+</span></span><span style=display:flex><span>alignment: <span style=color:#ae81ff>16</span>  
+</span></span><span style=display:flex><span>free block pool: <span style=color:#ae81ff>1024</span>  
+</span></span><span style=display:flex><span>inode number: <span style=color:#ae81ff>2326537</span>  
+</span></span><span style=display:flex><span>modified time: 2010-02-03T00:26:54+09:00  
+</span></span><span style=display:flex><span>options:  
+</span></span><span style=display:flex><span>record number: <span style=color:#ae81ff>3</span>  
+</span></span><span style=display:flex><span>file size: <span style=color:#ae81ff>528848</span>
+</span></span></code></pre></div><p><strong>■tchmgr out</strong></p><p>outによりレコードを削除する。削除するレコードのKeyを与える。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ tchmgr out coffee.tch caffellatte
+</span></span></code></pre></div><p>リスト表示してみる。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$tchmgr list coffee.tch  
+</span></span><span style=display:flex><span>espresso  
+</span></span><span style=display:flex><span>cappuccino
+</span></span></code></pre></div><p>削除したレコードをgetしてみる。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ tchmgr get coffee.tch caffellatte  
+</span></span><span style=display:flex><span>tchmgr: coffee.tch: 22: no record found
+</span></span></code></pre></div><p>当然エラーとなる。</p><p><strong>■tchmgr optimize</strong></p><p>optimizeは最適化だが、これまでのcoffee.tchに行っても効果は何もない。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ tchmgr optimize coffee.tch
+</span></span></code></pre></div><p><strong>■tchmgr importtsv</strong></p><p>最後にimporttsv。tchmgrはあらかじめ用意したタブ区切りのファイルを読み込ませることで、データベースファイルを生成することができる。また、既存のデータベースファイルにレコードを追加することも可能だ。</p><p>パラメータは、データベースファイル名、インポートするファイル名の順。</p><p>以下内容のファイル(numero.txt)を用意した。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>uno	ウーノ  
+</span></span><span style=display:flex><span>due	ドゥーエ  
+</span></span><span style=display:flex><span>tre	トレ  
+</span></span><span style=display:flex><span>quattro	クアットロ  
+</span></span><span style=display:flex><span>cinque	チンクェ  
+</span></span><span style=display:flex><span>sei	セーイ  
+</span></span><span style=display:flex><span>sette	セッテ  
+</span></span><span style=display:flex><span>otto	オット  
+</span></span><span style=display:flex><span>nove	ノーヴェ  
+</span></span><span style=display:flex><span>dieci	ディエーチ  
+</span></span><span style=display:flex><span>$ tchmgr importtsv numero.tch numero.txt  
+</span></span><span style=display:flex><span> <span style=color:#f92672>(</span>00000010<span style=color:#f92672>)</span>
+</span></span></code></pre></div><p>追加されたレコード数が出力される。<br>　リスト表示してみよう。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ tchmgr list numero.tch  
+</span></span><span style=display:flex><span>uno  
+</span></span><span style=display:flex><span>due  
+</span></span><span style=display:flex><span>tre  
+</span></span><span style=display:flex><span>quattro  
+</span></span><span style=display:flex><span>cinque  
+</span></span><span style=display:flex><span>sei  
+</span></span><span style=display:flex><span>sette  
+</span></span><span style=display:flex><span>otto  
+</span></span><span style=display:flex><span>nove  
+</span></span><span style=display:flex><span>dieci
+</span></span></code></pre></div><p>とりあえずここまで。<br>　B+木などはまた別の</p></div><footer class=post__footer><div class="post__tags tags clearfix"><svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5.0 11V3C0 1.5.8.8.8.8S1.5.0 3 0h8c1.5.0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 100-6 3 3 0 000 6z"/></svg><ul class=tags__list><li class=tags__item><a class="tags__link btn" href=/tags/%E3%83%84%E3%83%BC%E3%83%AB/ rel=tag>ツール</a></li></ul></div></footer></article></main></div><aside class=sidebar><div class="widget-taglist widget"><h4 class=widget__title>Tags</h4><div class=widget__content><a class="widget-taglist__link widget__link btn" href=/tags/android/ title=Android>Android</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/hugo/ title=Hugo>Hugo</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/linux/ title=Linux>Linux</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/notion/ title=Notion>Notion</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/php/ title=PHP>PHP</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/thinkpad/ title=ThinkPad>ThinkPad</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/web%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC/ title=Webサーバー>Webサーバー</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9/ title=Webサービス>Webサービス</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/zaurus/ title=Zaurus>Zaurus</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/%E3%81%A9%E3%81%86%E6%9B%B8%E3%81%8F/ title=どう書く？>どう書く？</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/%E3%82%B9%E3%82%BF%E3%83%91%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%89/ title=スタパクラウド>スタパクラウド</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/%E3%83%84%E3%83%BC%E3%83%AB/ title=ツール>ツール</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/%E5%AE%9F%E7%94%A8-r-%E3%82%A2%E3%83%8A%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/ title="実用 R アナグラミング">実用 R アナグラミング</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/%E7%A7%80%E4%B8%B8/ title=秀丸>秀丸</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/%E9%9B%91%E8%A8%98/ title=雑記>雑記</a></div></div></aside></div><footer class=footer><div class="container footer__container flex"><div class=footer__copyright>&copy; 2023 ivoryworks.
+<span class=footer__copyright-credits>Generated with <a href=https://gohugo.io/ rel="nofollow noopener" target=_blank>Hugo</a> and <a href=https://github.com/Vimux/Mainroad/ rel="nofollow noopener" target=_blank>Mainroad</a> theme.</span></div></div></footer></div><script async defer src=/js/menu.js></script></body></html>
