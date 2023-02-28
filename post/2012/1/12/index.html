@@ -1,0 +1,71 @@
+<!doctype html><html class=no-js lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>Installing Scribes on Fedora16 - ivoryworks</title><script>(function(e,t){e[t]=e[t].replace("no-js","js")})(document.documentElement,"className")</script><meta name=description content><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=dns-prefetch href=//fonts.googleapis.com><link rel=dns-prefetch href=//fonts.gstatic.com><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700"><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/css/font.css><link rel=stylesheet href=/css/custom.css><link rel="shortcut icon" href=/favicon.ico></head><body class=body><div class="container container--outer"><header class=header><div class="container header__container"><div class=logo><a class=logo__link href=/ title=ivoryworks rel=home><div class="logo__item logo__text"><div class=logo__title>ivoryworks</div></div></a></div><nav class=menu><button class=menu__btn aria-haspopup=true aria-expanded=false tabindex=0>
+<span class=menu__btn-title tabindex=-1>Menu</span></button><ul class=menu__list><li class=menu__item><a class=menu__link href=/><span class=menu__text>ホーム</span></a></li><li class=menu__item><a class=menu__link href=/about/><span class=menu__text>このサイトについて</span></a></li></ul></nav></div></header><div class="wrapper flex"><div class=primary><main class=main role=main><article class=post><header class=post__header><h1 class=post__title>Installing Scribes on Fedora16</h1><div class="post__meta meta"><div class="meta__item-datetime meta__item"><svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class=meta__text datetime=2012-01-12T00:00:00Z>2012/1/12 00:00</time></div></div></header><div class="content post__content clearfix"><p><img src=./7d837064-114d-4cd4-8328-215b58273523.png alt=scribesWeb-400x203.png></p><p><a href=http://scribes.sourceforge.net/>http://scribes.sourceforge.net/</a></p><p>以前から興味のあった<a href=http://scribes.sourceforge.net/>Scribes</a>というテキストエディタを使ってみようと思う。　Scribesは補完機能に注力されたエディタという事で、これはScribes設計思想によるものと思う。</p><blockquote><p>仕事の流れの阻害を最小限にすること、おもしろみのない作業を自動化すること、不要な設定変更をなくすこと、シンプルさに基づいた理性的な編集作業を達成することを目標にしている。この目標を達成するために必要のない慣習は守っていない。http://ja.wikipedia.org/wiki/Scribes</p></blockquote><p><a href=http://scribes.sourceforge.net/download.html>ダウンロードページ</a>にはFedoraのRPMパッケージへのリンクがあってダウンロードできるのだけど、そのパッケージではfedora16へのインストールがうまくいかない。　情報を漁ってみると同じ問題で困っている人がいて、最終的に次のコンテンツにたどり着く。　<a href=http://mystilleef.blogspot.com/2011/04/installing-scribes-on-fedora-and-rpm.html>http://mystilleef.blogspot.com/2011/04/installing-scribes-on-fedora-and-rpm.html</a></p><p>ここでは、Fedora15(beta)へインストールに成功したと言っているがFedora16でも同じ。　以下の手順を踏むとインストール完了となる。この手順は上記コンテンツで示される内容と同じ。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ sudo yum install gnome-common autoconf automake intltool glib2-devel rarian-compat bzr gnome-doc-utils gnome-python2-gtkspell pygtksourceview  
+</span></span><span style=display:flex><span>$ bzr branch lp:scribes  
+</span></span><span style=display:flex><span>$ cd scribes  
+</span></span><span style=display:flex><span>$ ./autogen.sh  
+</span></span><span style=display:flex><span>$ make  
+</span></span><span style=display:flex><span>$ sudo make install
+</span></span></code></pre></div><p><img src=./fc8a7bf5-3092-488c-beb6-da9acc15f71b.png alt=srribes-400x263.png></p><p>外観は非常にシンプルで、右上の赤いサークルにマウスカーソルをかざすとメニューバーが出現する。ショートカットが豊富に用意されており、Ctrl+hでチートシートが表示される。</p><p>しばらく使ってみようと思う。</p><p>さて、紹介されている手順では、最初に依存問題を解消するためにいくつかのパッケージをインストールするのだけど、今回あえてそれらをインストールせず、make install まで何度も失敗（依存性の問題により）を繰り返しながら、その都度必要となるパッケージをインストールする方法をとった（不要なパッケージをインストールしたくないために）。　結論として、示されるパッケージ群に過不足はなく、つまりFedora16へのインストールでも上記手順が正しい事がわかった。　この作業の記録を以下に記述する。上記でインストール完了した人には不要な情報だが、もしもこの解法を知らずにインストールを進め行き詰まっている場合には多少参考になるかもしれない。</p><p>まず、ソースコードをBazaarのリポジトリから取得する必要があり、bzrのインストールから進めていく。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ sudo yum install bzr  
+</span></span><span style=display:flex><span>$ bzr branch lp:scribes  
+</span></span><span style=display:flex><span>$ cd scribes  
+</span></span><span style=display:flex><span>$ ./autogen.sh  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>You need to install gnome-common from the GNOME CVS
+</span></span></code></pre></div><p>失敗</p><p>gnome-common をインストールする</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ sudo yum install gnome-common
+</span></span></code></pre></div><p>再挑戦</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ ./autogen.sh  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>checking <span style=color:#66d9ef>for</span> glib-gettext &gt;<span style=color:#f92672>=</span> 2.2.0...  
+</span></span><span style=display:flex><span>testing glib-gettextize... not found.  
+</span></span><span style=display:flex><span>***Error***: You must have glib-gettext &gt;<span style=color:#f92672>=</span> 2.2.0 installed  
+</span></span><span style=display:flex><span>to build scribes. Download the appropriate package <span style=color:#66d9ef>for</span>  
+</span></span><span style=display:flex><span>from your distribution or get the source tarball at  
+</span></span><span style=display:flex><span>ftp://ftp.gtk.org/pub/gtk/v2.2/glib-2.2.0.tar.gz
+</span></span></code></pre></div><p>ここでは、glib-gettextやglibではなく、glib2-develをインストールするのが正解。</p><p>なお、この時点でautoconfとautomakeも必要なのだが、自分の環境ではインストール済みだったのでインストールしていない。未インストールであればglib2-develと合わせてインストールすること。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ sudo yum install glib2-devel
+</span></span></code></pre></div><p>再挑戦</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ ./autogen.sh  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>checking <span style=color:#66d9ef>for</span> intltool &gt;<span style=color:#f92672>=</span> 0.25...  
+</span></span><span style=display:flex><span>testing intltoolize... not found.  
+</span></span><span style=display:flex><span>***Error***: You must have intltool &gt;<span style=color:#f92672>=</span> 0.25 installed  
+</span></span><span style=display:flex><span>to build scribes. Download the appropriate package <span style=color:#66d9ef>for</span>  
+</span></span><span style=display:flex><span>from your distribution or get the source tarball at  
+</span></span><span style=display:flex><span>http://ftp.gnome.org/pub/GNOME/sources/intltool/
+</span></span></code></pre></div><p>intltoolをインストールする。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ yum install intltool
+</span></span></code></pre></div><p>再挑戦</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plain data-lang=plain><span style=display:flex><span>$ ./autogen.sh  
+</span></span><span style=display:flex><span>checking for gnome-doc-utils &gt;= 0.4.2...  
+</span></span><span style=display:flex><span>testing gnome-doc-prepare... not found.  
+</span></span><span style=display:flex><span>***Error***: You must have gnome-doc-utils &gt;= 0.4.2 installed  
+</span></span><span style=display:flex><span>to build scribes. Download the appropriate package for  
+</span></span><span style=display:flex><span>from your distribution or get the source tarball at  
+</span></span><span style=display:flex><span>http://ftp.gnome.org/pub/GNOME/sources/gnome-doc-utils/
+</span></span></code></pre></div><p>gnome-doc-utilsをインストールする。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ sudo yum install gnome-doc-utils
+</span></span></code></pre></div><p>再挑戦</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ autogen.sh  
+</span></span><span style=display:flex><span>Error: pygtksourceview2 was not found.  
+</span></span><span style=display:flex><span>configure: error: Error: Dependency check failed
+</span></span></code></pre></div><p>エラーメッセージではpygtksourceview2と言っているが、pygtksourceviewをインストールするのが正解。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plain data-lang=plain><span style=display:flex><span>$ sodo yum install pygtksourceview
+</span></span></code></pre></div><p>再挑戦</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plain data-lang=plain><span style=display:flex><span>$ autogen.sh  
+</span></span><span style=display:flex><span>:  
+</span></span><span style=display:flex><span>Now type `make&#39; to compile scribes
+</span></span></code></pre></div><p>OK</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ make  
+</span></span><span style=display:flex><span>$ sudo make install  
+</span></span><span style=display:flex><span>/bin/sh: 行 1: scrollkeeper-config: コマンドが見つかりません  
+</span></span><span style=display:flex><span>scrollkeeper-update -p -o /usr/share/omf/scribes  
+</span></span><span style=display:flex><span>/bin/sh: 行 2: scrollkeeper-config: コマンドが見つかりません  
+</span></span><span style=display:flex><span>/bin/sh: 行 2: scrollkeeper-update: コマンドが見つかりません
+</span></span></code></pre></div><p>この問題はrarian-compatをインストールする事で解消される。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ sudo yum install rarian-compat  
+</span></span><span style=display:flex><span>$ sudo make install
+</span></span></code></pre></div><p>OK</p></div><footer class=post__footer><div class="post__tags tags clearfix"><svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5.0 11V3C0 1.5.8.8.8.8S1.5.0 3 0h8c1.5.0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 100-6 3 3 0 000 6z"/></svg><ul class=tags__list><li class=tags__item><a class="tags__link btn" href=/tags/%E3%83%84%E3%83%BC%E3%83%AB/ rel=tag>ツール</a></li></ul></div></footer></article></main></div><aside class=sidebar><div class="widget-taglist widget"><h4 class=widget__title>Tags</h4><div class=widget__content><a class="widget-taglist__link widget__link btn" href=/tags/android/ title=Android>Android</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/hugo/ title=Hugo>Hugo</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/linux/ title=Linux>Linux</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/notion/ title=Notion>Notion</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/php/ title=PHP>PHP</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/thinkpad/ title=ThinkPad>ThinkPad</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/web%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC/ title=Webサーバー>Webサーバー</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/web%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9/ title=Webサービス>Webサービス</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/zaurus/ title=Zaurus>Zaurus</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/%E3%81%A9%E3%81%86%E6%9B%B8%E3%81%8F/ title=どう書く？>どう書く？</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/%E3%82%B9%E3%82%BF%E3%83%91%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%89/ title=スタパクラウド>スタパクラウド</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/%E3%83%84%E3%83%BC%E3%83%AB/ title=ツール>ツール</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/%E5%AE%9F%E7%94%A8-r-%E3%82%A2%E3%83%8A%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0/ title="実用 R アナグラミング">実用 R アナグラミング</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/%E7%A7%80%E4%B8%B8/ title=秀丸>秀丸</a>
+<a class="widget-taglist__link widget__link btn" href=/tags/%E9%9B%91%E8%A8%98/ title=雑記>雑記</a></div></div></aside></div><footer class=footer><div class="container footer__container flex"><div class=footer__copyright>&copy; 2023 ivoryworks.
+<span class=footer__copyright-credits>Generated with <a href=https://gohugo.io/ rel="nofollow noopener" target=_blank>Hugo</a> and <a href=https://github.com/Vimux/Mainroad/ rel="nofollow noopener" target=_blank>Mainroad</a> theme.</span></div></div></footer></div><script async defer src=/js/menu.js></script></body></html>
